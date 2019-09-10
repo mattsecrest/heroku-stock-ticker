@@ -6,6 +6,8 @@ import matplotlib.pylab as plt
 from datetime import datetime
 import seaborn as sb
 
+se = pd.read_csv(r'WIKI-meta-data.csv')
+
 def mmdict(mm):
     dict = {
         '01':'01','02':'02','03':'03','04':'04','05':'05','06':'06','07':'07','08':'08','09':'09','10':'10','11':'11','12':'12',
@@ -17,6 +19,9 @@ def mmdict(mm):
         'JAN':'01','FEB':'02','MAR':'03','APR':'04','MAY':'05','JUN':'06','JUL':'07','AUG':'08','SEP':'09','OCT':'10','NOV':'11','DEC':'12'
         }
     return dict[mm]
+
+def stockExists(symbol):
+    return symbol in list(se['code'])
 
 def stockTicker(symbol,mm,yyyy):
     mm = mmdict(mm)
@@ -35,5 +40,5 @@ def stockTicker(symbol,mm,yyyy):
     dfr = pd.DataFrame(lr)
     dfr.columns = ['datestr','close']
     dfr['date'] = pd.to_datetime(dfr['datestr'],format='%Y-%m-%d')
-    dfr = dfr.set_index(dfr['date'])[mm+'-'+yyyy:mm+'-'+yyyy]
+    #dfr = dfr.set_index(dfr['date'])[mm+'-'+yyyy:mm+'-'+yyyy]
     return dfr

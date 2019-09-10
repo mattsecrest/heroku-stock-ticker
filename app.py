@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, redirect,flash,url_for,session
 from wtforms import Form, FloatField, validators
 from forms import stockInput, goBack
-from stockTicker import stockTicker, mmdict
+from stockTicker import stockTicker, mmdict,stockExists
 from bokeh.plotting import figure, output_file, show
 from bokeh.embed import components
 from bokeh.models import BoxSelectTool, BoxZoomTool,ResetTool,WheelZoomTool,LassoSelectTool
+import pandas as pd 
 
 app = Flask(__name__)
 
@@ -25,11 +26,26 @@ def index():
 def figure():
     from bokeh.plotting import figure, output_file, show
     back = goBack()
+    d = stockTicker(session['symbol'],session['month'],session['year'])
     stock = session['symbol']
     stock = stock.upper()
-    d = stockTicker(session['symbol'],session['month'],session['year'])
+    month = session['month']
+    year = session['year']
+    if month != '12':
+        next_month = str(int(month)+1)
+        next_year = year
+    else:
+        next_month = '01'
+        next_year = str(int(year)+1)
+    ymin = min(d.set_index(d['date'])[month+'-'+year:month+'-'+year]['close'])
+    ymin = ymin-(ymin*.025)
+    ymax = max(d.set_index(d['date'])[month+'-'+year:month+'-'+year]['close'])
+    ymax = ymax+(ymax*.025)
     p = figure(plot_width=600, plot_height=400,x_axis_type='datetime',title='Closing price of {} for {}/{}'.
-        format(session['symbol'],session['month'],session['year']))
+        format(stock,session['month'],session['year']),
+        x_range = (pd.to_datetime(year+'-'+month+'-'+'01',format='%Y-%m-%d'),
+            pd.to_datetime(next_year+'-'+next_month+'-'+'01',format='%Y-%m-%d')),
+        y_range = (ymin,ymax))
     p.line(d['date'], d['close'], line_width=2)
     p.xaxis.axis_label = "Date"
     p.yaxis.axis_label = "Closing Price (USD)"
