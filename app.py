@@ -4,7 +4,7 @@ from forms import stockInput, goBack
 from stockTicker import stockTicker, mmdict
 from bokeh.plotting import figure, output_file, show
 from bokeh.embed import components
-from bokeh.models import BoxSelectTool, ResetTool,WheelZoomTool,LassoSelectTool
+from bokeh.models import BoxSelectTool, BoxZoomTool,ResetTool,WheelZoomTool,LassoSelectTool
 
 app = Flask(__name__)
 
@@ -27,12 +27,8 @@ def figure():
     back = goBack()
     d = stockTicker(session['symbol'],session['month'],session['year'])
     p = figure(plot_width=600, plot_height=400,x_axis_type='datetime',title='Closing price of {} for {}/{}'.
-        format(session['symbol'],session['month'],session['year'])])
+        format(session['symbol'],session['month'],session['year']))
     p.line(d['date'], d['close'], line_width=2)
-    p.add_tools(LassoSelectTool())
-    p.add_tools(WheelZoomTool())
-    p.add_tools(BoxZoomTool())
-    p.add_tools(ResetTool())
     p.xaxis.axis_label = "Date"
     p.yaxis.axis_label = "Closing Price (USD)"
     script,div = components(p)
@@ -41,4 +37,4 @@ def figure():
     return render_template('figure.html', script=script, div=div,form=back)
 
 if __name__ == '__main__':
-    app.run(port=33507)
+    app.run(debug=True, use_reloader=True)
