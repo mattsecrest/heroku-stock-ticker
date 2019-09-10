@@ -25,6 +25,8 @@ def index():
 def figure():
     from bokeh.plotting import figure, output_file, show
     back = goBack()
+    stock = session['symbol']
+    stock = stock.upper()
     d = stockTicker(session['symbol'],session['month'],session['year'])
     p = figure(plot_width=600, plot_height=400,x_axis_type='datetime',title='Closing price of {} for {}/{}'.
         format(session['symbol'],session['month'],session['year']))
