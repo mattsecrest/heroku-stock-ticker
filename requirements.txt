@@ -143,7 +143,6 @@ python-dateutil==2.8.0
 pythonds==1.2.1
 pytz==2019.1
 PyWavelets==1.0.3
-pywin32==223
 pywinpty==0.5.5
 PyYAML==5.1.1
 pyzmq==18.0.0
