@@ -36,4 +36,4 @@ def figure():
     return render_template('figure.html', script=script, div=div,form=back)
 
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=True)
+    app.run(port=33507)
