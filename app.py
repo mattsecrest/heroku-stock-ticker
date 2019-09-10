@@ -26,7 +26,7 @@ def figure():
     back = goBack()
     d = stockTicker(session['symbol'],session['month'],session['year'])
     p = figure(plot_width=600, plot_height=400,x_axis_type='datetime',title='Closing price of {} for {}/{}'.
-        format(session['symbol'],session['month'],session['year']),tools="pan,wheel_zoom,box_zoom,reset")
+        format(session['symbol'],session['month'],session['year']),tools=["pan,wheel_zoom,box_zoom,reset"])
     p.line(d['date'], d['close'], line_width=2)
     p.xaxis.axis_label = "Date"
     p.yaxis.axis_label = "Closing Price (USD)"
