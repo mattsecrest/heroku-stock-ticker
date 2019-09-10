@@ -14,12 +14,15 @@ app.config['SECRET_KEY'] = 'e256803842b0ac38c491bc4ff193e809587b1ef2b6915b9cd746
 @app.route('/', methods = ['GET','POST'])
 def index():
     form = stockInput()
-    if form.validate_on_submit():
-        flash(f'Fetching data for {form.symbol.data}!','success')
-        session['symbol']=form.symbol.data
-        session['month']=mmdict(form.month.data)
-        session['year']=form.year.data
-        return redirect(url_for('figure'))
+    if request.method=="POST":
+        if form.validate_on_submit():
+            session['symbol']=form.symbol.data
+            session['month']=mmdict(form.month.data)
+            session['year']=form.year.data
+            return redirect(url_for('figure'))
+        else:
+            flash("Try again. Verify that the stock exists and was input correctly and that the date was prior to April, 2018.")
+            return render_template("index.html",form=form)
     return render_template("index.html",form=form)
 
 @app.route('/figure',methods = ['GET','POST'])
@@ -55,4 +58,4 @@ def figure():
     return render_template('figure.html', script=script, div=div,form=back)
 
 if __name__ == '__main__':
-    app.run(port=33507)
+    app.run(debug=True, use_reloader=True)

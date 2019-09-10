@@ -8,6 +8,15 @@
     <!-- <link rel="icon" href="favicon.ico"> -->
 
     <title>Stock ticker!</title>
+	{% with messages = get_flashed_messages() %}
+	  {% if messages %}
+		<ul class=flashes>
+		{% for message in messages %}
+		  <font color='red'><li>{{ message }}</li></font>
+		{% endfor %}
+		</ul>
+	  {% endif %}
+	{% endwith %}
 	
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
