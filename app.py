@@ -4,6 +4,7 @@ from forms import stockInput, goBack
 from stockTicker import stockTicker, mmdict
 from bokeh.plotting import figure, output_file, show
 from bokeh.embed import components
+from bokeh.models import BoxSelectTool, ResetTool,WheelZoomTool,LassoSelectTool
 
 app = Flask(__name__)
 
