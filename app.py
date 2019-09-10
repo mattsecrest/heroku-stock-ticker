@@ -21,7 +21,7 @@ def index():
             session['year']=form.year.data
             return redirect(url_for('figure'))
         else:
-            flash("Try again. Verify that the stock exists and was input correctly and that the date was prior to April, 2018.")
+            flash("Try again. Verify that the stock exists and was input correctly and that the date was prior to 2018.")
             return render_template("index.html",form=form)
     return render_template("index.html",form=form)
 

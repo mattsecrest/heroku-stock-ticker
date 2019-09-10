@@ -19,8 +19,8 @@ class stockInput(FlaskForm):
                         
     year = StringField('Year', 
                         validators=[DataRequired(), Length(min=4,max=4)])
-    def validate_year_(self,field):
-        if field.data not in [str(i) for i in list(range(1900,2019))]:
+    def validate_year(self,field):
+        if field.data not in [str(i) for i in list(range(1900,2018))]:
             raise ValidationError("Year is not correct format")
                   
     submit = SubmitField('Confirm')
